@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         DaggerIAComponent.create().inject(this);
 
-        TextView textView =  findViewById(R.id.textview);
+        TextView textView = findViewById(R.id.textview);
         textView.setText(iPresenter.getStr());
     }
 }
