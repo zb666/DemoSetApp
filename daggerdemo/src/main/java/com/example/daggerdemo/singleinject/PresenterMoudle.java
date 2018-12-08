@@ -1,4 +1,4 @@
-package com.example.daggerdemo.daggerpc;
+package com.example.daggerdemo.singleinject;
 
 import dagger.Module;
 import dagger.Provides;
@@ -8,10 +8,9 @@ import javax.inject.Singleton;
 @Module
 public class PresenterMoudle {
 
-    //单例 这里的单例要和iComponent里面成对出现
     @Singleton
     @Provides
-    Presenter getP(){
+    Presenter getPresenter() {
         return new Presenter();
     }
 }
