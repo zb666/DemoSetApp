@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 //                startActivityForResult(intent, REQUEST_CODE);
                 String textContent = "您好啊";
                 if (TextUtils.isEmpty(textContent)) {
+
 //                    Toast.makeText(ThreeActivity.this, "您的输入为空!", Toast.LENGTH_SHORT).show();
                     return;
                 }
