@@ -1,17 +1,29 @@
 package com.example.daggerdemo;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.daggerdemo.app.MyApp;
 import com.example.daggerdemo.singleinject.Presenter;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+import org.w3c.dom.Node;
 
 import javax.inject.Inject;
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final int REQUEST_CODE = 0x11;
     @Inject
     Presenter presenter;
 
@@ -27,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         //这样的话就能解决这个单例 只会在只用的类里面是单例的尴尬
         ((MyApp) getApplication()).getAppComponent()
                 .injectMainActivity(this);
+        final ImageView imageView = findViewById(R.id.image);
 
         //所有的单例 都会由application提供
 //        ((MyApp)getApplication()).getAppComponent() 而且这里的注入主需要在app里面完成编译
@@ -34,9 +47,57 @@ public class MainActivity extends AppCompatActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText(presenter.getStr());
+//                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+//                startActivityForResult(intent, REQUEST_CODE);
+                String textContent = "您好啊";
+                if (TextUtils.isEmpty(textContent)) {
+//                    Toast.makeText(ThreeActivity.this, "您的输入为空!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Bitmap image = CodeUtils.createImage(textContent, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_round));
+                imageView.setImageBitmap(image);
+
             }
         });
 
+        try{
+
+        }catch (RuntimeException ex){
+
+        }
+
     }
+
+    private static class Node<E> {
+        E item;
+        Node<E> next;
+        Node<E> prev;
+
+        Node(Node<E> prev, E element, Node<E> next) {
+            this.item = element;
+            this.next = next;
+            this.prev = prev;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            //处理扫描结果（在界面上显示）
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
 }

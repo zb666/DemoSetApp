@@ -33,4 +33,9 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
     //java注解
     implementation 'org.glassfish:javax.annotation:10.0-b28'
+    //zxing
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okio:okio:1.14.1'
 }
