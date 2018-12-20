@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.GridLayoutManager.DefaultSpanSizeLookup;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -51,10 +52,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         addItem(multipleItemList);
         final MultipleItemQuickAdapter itemQuickAdapter = new MultipleItemQuickAdapter(multipleItemList);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int i) {
+               if (i==0){
+                   //占权重的4/4 也就是整行
+                   return 4;
+               }else if (i==1){
+                   //占权重的3/4,也就是屏幕3/4
+                   return 3;
+               }
+               //其余的都只会占屏幕的1/4，空间不够的话就进行换行
+               return 1;
+            }
+        });
+        recyclerView.setAdapter(itemQuickAdapter);
+        recyclerView.setLayoutManager(gridLayoutManager);
         //但是瀑布流这种的话是没法使用这个属性的
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(itemQuickAdapter);
 
         itemQuickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -63,27 +80,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        itemQuickAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
-                return position % 3 == 1 ?
-                        3 : ((position % 3 == 2) ?
-                        2 :1);
-            }
-        });
-        itemQuickAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                int itemCount = itemQuickAdapter.getItemCount();
-                if (itemCount >= 40) {
+//        itemQuickAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+//                if (position % 3 == 0) {
+//                    return 1;
+//                } else if (position % 3 == 1) {
+//                    return 2;
+//                }
+//                return 3;
+//            }
+//        });
+
+//        itemQuickAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+//            @Override
+//            public void onLoadMoreRequested() {
+//                int itemCount = itemQuickAdapter.getItemCount();
+//                if (itemCount >= 40) {
+////                    addItem(multipleItemList);
+//                    itemQuickAdapter.loadMoreEnd();
+//                } else {
 //                    addItem(multipleItemList);
-                    itemQuickAdapter.loadMoreEnd();
-                } else {
-                    addItem(multipleItemList);
-                    itemQuickAdapter.loadMoreComplete();
-                }
-            }
-        }, recyclerView);
+//                    itemQuickAdapter.loadMoreComplete();
+//                }
+//            }
+//        }, recyclerView);
     }
 
     private void addItem(List<PersonMultipleItem> multipleItemList) {
