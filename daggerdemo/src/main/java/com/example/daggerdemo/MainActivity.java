@@ -6,99 +6,121 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.daggerdemo.app.MyApp;
+import com.example.daggerdemo.bean.PersonMultipleItem;
+import com.example.daggerdemo.multiple.MultipleItemQuickAdapter;
 import com.example.daggerdemo.singleinject.Presenter;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import org.w3c.dom.Node;
 
 import javax.inject.Inject;
+import java.io.*;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private static final int REQUEST_CODE = 0x11;
+
     @Inject
     Presenter presenter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         final TextView textView = findViewById(R.id.textview);
+        textView.setOnClickListener(this);
+        textView.setText(getPackageName());
+        recyclerView = findViewById(R.id.recycleview);
+        final List<PersonMultipleItem> multipleItemList = new ArrayList<>();
 
-        //全局单例 因为PresenterMoudle由我们的app执行 但是app又是单例的
-        //这样的话就能解决这个单例 只会在只用的类里面是单例的尴尬
-        ((MyApp) getApplication()).getAppComponent()
-                .injectMainActivity(this);
-        final ImageView imageView = findViewById(R.id.image);
+        addItem(multipleItemList);
+        final MultipleItemQuickAdapter itemQuickAdapter = new MultipleItemQuickAdapter(multipleItemList);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        //但是瀑布流这种的话是没法使用这个属性的
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(itemQuickAdapter);
 
-        //所有的单例 都会由application提供
-//        ((MyApp)getApplication()).getAppComponent() 而且这里的注入主需要在app里面完成编译
-        //不需要inject之后 在执行build操作
-        textView.setOnClickListener(new View.OnClickListener() {
+        itemQuickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-//                startActivityForResult(intent, REQUEST_CODE);
-                String textContent = "您好啊";
-                if (TextUtils.isEmpty(textContent)) {
-
-//                    Toast.makeText(ThreeActivity.this, "您的输入为空!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Bitmap image = CodeUtils.createImage(textContent, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_round));
-                imageView.setImageBitmap(image);
-
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                itemQuickAdapter.loadMoreComplete();
             }
         });
 
-        try{
-
-        }catch (RuntimeException ex){
-
-        }
-
+        itemQuickAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+                return position % 3 == 1 ?
+                        3 : ((position % 3 == 2) ?
+                        2 :1);
+            }
+        });
+        itemQuickAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                int itemCount = itemQuickAdapter.getItemCount();
+                if (itemCount >= 40) {
+//                    addItem(multipleItemList);
+                    itemQuickAdapter.loadMoreEnd();
+                } else {
+                    addItem(multipleItemList);
+                    itemQuickAdapter.loadMoreComplete();
+                }
+            }
+        }, recyclerView);
     }
 
-    private static class Node<E> {
-        E item;
-        Node<E> next;
-        Node<E> prev;
-
-        Node(Node<E> prev, E element, Node<E> next) {
-            this.item = element;
-            this.next = next;
-            this.prev = prev;
+    private void addItem(List<PersonMultipleItem> multipleItemList) {
+        for (int i = 0; i < 30; i++) {
+            PersonMultipleItem personItem = new PersonMultipleItem(i % 2 == 0 ? PersonMultipleItem.TEXT : PersonMultipleItem.IMAGE);
+            personItem.setContext(":x " + i);
+            multipleItemList.add(personItem);
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE) {
-            //处理扫描结果（在界面上显示）
-            if (null != data) {
-                Bundle bundle = data.getExtras();
-                if (bundle == null) {
-                    return;
-                }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
-                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
+    public void onClick(View v) {
+//        try {
+//            Socket socket = new Socket("http:restapi.com", 80);
+//            //数据的输入流
+//            final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//            //输出流
+//            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+//
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    //socket 只要遵循http的报文格式 做出请求和响应即可
+//                    String line = null;
+//                    try {
+//                        while ((line = bufferedReader.readLine()) != null) {
+//                            System.out.print("");
+//                        }
+//                    } catch (IOException ex) {
+//
+//                    }
+//
+//                }
+//            }.start();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     }
-
 }
