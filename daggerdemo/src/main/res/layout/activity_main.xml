@@ -8,6 +8,10 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
+    <com.example.daggerdemo.view.WaveView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
     <com.example.daggerdemo.view.SignView
             android:layout_width="match_parent"
             android:layout_height="200dp"/>

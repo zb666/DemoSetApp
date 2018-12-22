@@ -43,13 +43,13 @@ public class SignView extends View {
         mPath = new android.graphics.Path();
 
         mMeasurePath = new android.graphics.Path();
-        mMeasurePath.addRect(-50,-50,50,50, android.graphics.Path.Direction.CW);
+        mMeasurePath.addRect(-50, -50, 50, 50, android.graphics.Path.Direction.CW);
         //构造出PathMeasure路径
-        PathMeasure pathMeasure = new PathMeasure(mMeasurePath,false);
+        PathMeasure pathMeasure = new PathMeasure(mMeasurePath, false);
         //截取路径
-        dst =  new android.graphics.Path();
+        dst = new android.graphics.Path();
         //截取该路径0-150 然后放置到dst路径之下
-        pathMeasure.getSegment(0,150,dst,true);
+        pathMeasure.getSegment(0, 150, dst, true);
 
     }
 
@@ -81,19 +81,22 @@ public class SignView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawPath(mPath, mPaintBezier);
-        canvas.drawPath(dst,mPaintBezier);
+        canvas.drawPath(dst, mPaintBezier);
     }
 
     /**
      * 当前屏幕的大小
-     * @param w 宽度
-     * @param h 高度
+     *
+     * @param w    宽度
+     * @param h    高度
      * @param oldw 旧的宽度
      * @param oldh 旧的高度
      */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.d("BobV","onSizeChanged");
+        Log.d("BobV", "onSizeChanged：" + "w: " + w + " h" + h + "oldw " + oldw + "oldh " + oldh);
     }
+
+
 }
