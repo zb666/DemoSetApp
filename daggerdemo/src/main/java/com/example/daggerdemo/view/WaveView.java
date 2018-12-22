@@ -9,9 +9,7 @@ import android.graphics.Path;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 
 //向左移动一个波长的距离
 //该波长可以作为偏移量控制offset来控制波浪的走动
