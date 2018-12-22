@@ -1,18 +1,34 @@
 package com.example.daggerdemo;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.GridLayoutManager.DefaultSpanSizeLookup;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.daggerdemo.app.MyApp;
 import com.example.daggerdemo.bean.PersonMultipleItem;
 import com.example.daggerdemo.multiple.MultipleItemQuickAdapter;
 import com.example.daggerdemo.singleinject.Presenter;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+import org.w3c.dom.Node;
 
 import javax.inject.Inject;
+import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Inject
     Presenter presenter;
-    private RecyclerView mRecycleView;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final TextView textView = findViewById(R.id.textview);
         textView.setOnClickListener(this);
         textView.setText(getPackageName());
-        mRecycleView = findViewById(R.id.recycleview);
+        recyclerView = findViewById(R.id.recycleview);
         final List<PersonMultipleItem> multipleItemList = new ArrayList<>();
 
         addItem(multipleItemList);
@@ -52,11 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                return 1;
             }
         });
-        mRecycleView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
-        mRecycleView.setAdapter(itemQuickAdapter);
-        mRecycleView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(itemQuickAdapter);
+        recyclerView.setLayoutManager(gridLayoutManager);
         //但是瀑布流这种的话是没法使用这个属性的
-        mRecycleView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
 
         itemQuickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -89,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                    itemQuickAdapter.loadMoreComplete();
 //                }
 //            }
-//        }, mRecycleView);
+//        }, recyclerView);
     }
 
     private void addItem(List<PersonMultipleItem> multipleItemList) {

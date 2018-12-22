@@ -8,7 +8,6 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-    <com.example.daggerdemo.view.BezierView android:layout_width="match_parent" android:layout_height="@dimen/dp_40"/>
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleview"
