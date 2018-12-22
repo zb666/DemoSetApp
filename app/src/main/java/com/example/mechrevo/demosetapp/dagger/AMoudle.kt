@@ -13,6 +13,13 @@ class AMoudle {
     fun testF(a: String, b: Int = 0, duration: Int = Toast.LENGTH_SHORT) {
     }
 
+    companion object {
+        @JvmStatic
+        fun test(){
+
+        }
+    }
+
     @Provides
     fun providerA(): A {
         return A()
