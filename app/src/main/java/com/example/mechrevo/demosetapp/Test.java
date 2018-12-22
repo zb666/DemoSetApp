@@ -6,7 +6,6 @@ public class Test {
     void test(){
         AMoudle aMoudle = new AMoudle();
         aMoudle.testF("");
-
-
+        AMoudle.test();
     }
 }
