@@ -36,6 +36,12 @@ android {
             signingConfig signingConfigs.release
             //加载默认的混淆配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //自定义apk名字
+            android.applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    outputFileName = "${defaultConfig.applicationId}-${variant.buildType.name}-${defaultConfig.versionName}-${}.apk".toLowerCase()
+                }
+            }
         }
         debug {
             signingConfig signingConfigs.release
@@ -47,7 +53,7 @@ android {
 walle {
     // 指定渠道包的输出路径
     apkOutputFolder = new File("D:/xys/APK_output/apk/walle")
-    apkFileNameFormat = '${channel}-${buildType}.apk'
+    apkFileNameFormat = '${appName}-${packageName}-${channel}-${buildType}-v${versionName}-${versionCode}.apk'
     channelFile = new File("${project.getProjectDir()}/channel")
 }
 
@@ -78,5 +84,10 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     // Optional, if you use support library fragments:
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+
 }
