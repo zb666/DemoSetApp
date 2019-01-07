@@ -16,10 +16,15 @@ import com.just.library.LogUtils
 import com.squareup.leakcanary.LeakCanary
 import dagger.internal.DaggerCollections
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
 import retrofit2.Retrofit
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ITestKotlin,IMethodInput<String> {
+    override fun test(): Call<String> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun testResult(str: String?, result: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

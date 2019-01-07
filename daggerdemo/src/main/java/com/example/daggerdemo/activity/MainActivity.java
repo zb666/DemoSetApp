@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         TextView tvJump = findViewById(R.id.tvJump);
         tvJump.setOnClickListener(new View.OnClickListener() {
             @Override
