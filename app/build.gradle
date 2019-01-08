@@ -21,8 +21,8 @@ android {
         applicationId "com.example.mechrevo.demosetapp"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -36,6 +36,12 @@ android {
             signingConfig signingConfigs.release
             //加载默认的混淆配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //自定义apk名字
+//            android.applicationVariants.all { variant ->
+//                variant.outputs.all { output ->
+//                    outputFileName = "${defaultConfig.applicationId}-${variant.buildType.name}-${defaultConfig.versionName}-${}.apk".toLowerCase()
+//                }
+//            }
         }
         debug {
             signingConfig signingConfigs.release
@@ -44,10 +50,11 @@ android {
 
 }
 
+
 walle {
     // 指定渠道包的输出路径
     apkOutputFolder = new File("D:/xys/APK_output/apk/walle")
-    apkFileNameFormat = '${channel}-${buildType}.apk'
+    apkFileNameFormat = '${appName}-${packageName}-${channel}-${buildType}-v${versionName}-${versionCode}.apk'
     channelFile = new File("${project.getProjectDir()}/channel")
 }
 
@@ -68,4 +75,21 @@ dependencies {
     //java注解
     implementation 'org.glassfish:javax.annotation:10.0-b28'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+    implementation 'com.github.markzhai:blockcanary-android:1.5.0'
+    // 仅在debug包启用BlockCanary进行卡顿监控和提示的话，可以这么用
+//    debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
+//    releaseCompile 'com.github.markzhai:blockcanary-no-op:1.5.0'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    // Optional, if you use support library fragments:
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
+
+
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+
 }
