@@ -13,6 +13,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".OtherACtivity">
+            <meta-data
+                    android:name="android.max_aspect"
+                    android:value="2.1"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
