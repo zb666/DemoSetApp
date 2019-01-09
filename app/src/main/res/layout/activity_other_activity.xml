@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/holo_blue_bright">
+
+    <!--这里layout_marginTop="126px"是因为我提前用DisplayCutoutDemo.java中的getStatusBarHeight方法
+    提前获得状态栏高度为126,单位为PX
+    因此在设置的时候，直接设置距离上面126px了
+    这样就能完美的避开刘海屏区域-->
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    <TextView
+            android:id="@+id/android_p_demo_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"/>
+
+</LinearLayout>

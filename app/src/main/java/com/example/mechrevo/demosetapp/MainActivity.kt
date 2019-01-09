@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.DisplayCutout
 import android.widget.Toast
 import com.example.mechrevo.demosetapp.dagger.A
 import com.example.mechrevo.demosetapp.dagger.AMoudle
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity(), ITestKotlin,IMethodInput<String> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        startActivity(Intent(this,DemoActivity::class.java))
+
     }
 
 

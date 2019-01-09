@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import com.github.moduth.blockcanary.BlockCanary
 import com.google.gson.Gson
 import com.google.gson.TypeAdapter
@@ -25,6 +27,13 @@ class DemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val i = 1 shl 8
         Log.d(TAG, "start \n test$i")
+
+        val params = window.attributes
+        val lp = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER
+        window.setGravity(lp)
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+
     }
 
 }
