@@ -20,7 +20,10 @@
     <TextView
             android:id="@+id/android_p_demo_tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
             android:text="Hello World!"/>
 
 </LinearLayout>

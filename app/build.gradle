@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'walle'
 
+apply plugin: 'com.doraemon.compiler.plugin'
+
 android {
     compileSdkVersion 28
     signingConfigs {
@@ -19,7 +21,7 @@ android {
     }
     defaultConfig {
         applicationId "com.example.mechrevo.demosetapp"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 2
         versionName "2.0"
@@ -99,4 +101,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'io.reactivex:rxandroid:1.2.1'
 
+    implementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.1'
+//    implementation 'com.didichuxing.doraemonkit:kit-no-op:1.0.5'
 }

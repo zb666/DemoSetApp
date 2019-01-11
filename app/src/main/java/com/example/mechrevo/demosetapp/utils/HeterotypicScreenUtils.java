@@ -17,7 +17,6 @@ import static android.content.ContentValues.TAG;
 public class HeterotypicScreenUtils {
 
 
-
     //public static final String DISPLAY_NOTCH_STATUS = "display_notch_status";
     //int mIsNotchSwitchOpen = Settings.Secure.getInt(context.getContentResolver(),DISPLAY_NOTCH_STATUS, 0);
     // 0表示“默认”，1表示“隐藏显示区域”
@@ -32,48 +31,47 @@ public class HeterotypicScreenUtils {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
+    @JvmStatic
+    public static void getHeterotypicSize(Activity activity) {
+        View contentView = activity.getWindow().getDecorView().findViewById(android.R.id.content).getRootView();
+        contentView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            @SuppressLint("NewApi")
+            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                DisplayCutout cutout = null;
+                if (android.os.Build.VERSION.SDK_INT >= 28) {
+                    cutout = windowInsets.getDisplayCutout();
 
-   @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
-   @JvmStatic
-   public static void getHeterotypicSize(Activity activity){
-       View contentView = activity.getWindow().getDecorView().findViewById(android.R.id.content).getRootView();
-       contentView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-           @Override
-           @SuppressLint("NewApi")
-           public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-               DisplayCutout cutout = null;
-               if (android.os.Build.VERSION.SDK_INT >= 28) {
-                   cutout = windowInsets.getDisplayCutout();
-
-                   if (cutout == null) {
-                       Log.e(TAG, "cutout==null, is not notch screen");//通过cutout是否为null判断是否刘海屏手机
-                   } else {
-                       List<Rect> rects = cutout.getBoundingRects();
-                       if (rects == null || rects.size() == 0) {
-                           Log.e(TAG, "rects==null || rects.size()==0, is not notch screen");
-                       } else {
-                           Log.e(TAG, "rect size:" + rects.size());//注意：刘海的数量可以是多个
-                           for (Rect rect : rects) {
-                               Log.e(TAG, "cutout.getSafeInsetTop():" + cutout.getSafeInsetTop()
-                                       + ", cutout.getSafeInsetBottom():" + cutout.getSafeInsetBottom()
-                                       + ", cutout.getSafeInsetLeft():" + cutout.getSafeInsetLeft()
-                                       + ", cutout.getSafeInsetRight():" + cutout.getSafeInsetRight()
-                                       + ", cutout.rects:" + rect
-                               );
-                           }
-                       }
-                   }
-               }
-               return windowInsets;
-           }
-       });
-   }
+                    if (cutout == null) {
+                        Log.e(TAG, "cutout==null, is not notch screen");//通过cutout是否为null判断是否刘海屏手机
+                    } else {
+                        List<Rect> rects = cutout.getBoundingRects();
+                        if (rects == null || rects.size() == 0) {
+                            Log.e(TAG, "rects==null || rects.size()==0, is not notch screen");
+                        } else {
+                            Log.e(TAG, "rect size:" + rects.size());//注意：刘海的数量可以是多个
+                            for (Rect rect : rects) {
+                                Log.e(TAG, "cutout.getSafeInsetTop():" + cutout.getSafeInsetTop()
+                                        + ", cutout.getSafeInsetBottom():" + cutout.getSafeInsetBottom()
+                                        + ", cutout.getSafeInsetLeft():" + cutout.getSafeInsetLeft()
+                                        + ", cutout.getSafeInsetRight():" + cutout.getSafeInsetRight()
+                                        + ", cutout.rects:" + rect
+                                );
+                            }
+                        }
+                    }
+                }
+                return windowInsets;
+            }
+        });
+    }
 
 
     //在使用LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES的时候，状态栏会显示为白色，这和主内容区域颜色冲突,
     //所以我们要开启沉浸式布局模式，即真正的全屏模式,以实现状态和主体内容背景一致
     @JvmStatic
-    public static void openFullScreenModel(Activity mAc){
+    public static void openFullScreenModel(Activity mAc) {
         if (android.os.Build.VERSION.SDK_INT >= 28) {
             mAc.requestWindowFeature(Window.FEATURE_NO_TITLE);
             WindowManager.LayoutParams lp = mAc.getWindow().getAttributes();
