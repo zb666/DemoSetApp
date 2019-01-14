@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity(), ITestKotlin,IMethodInput<String> {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var bundle = Bundle();
+
     }
 
 
