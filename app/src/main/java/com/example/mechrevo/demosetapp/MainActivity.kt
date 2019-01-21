@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), ITestKotlin,IMethodInput<String> {
+class MainActivity : AppCompatActivity(), ITestKotlin, IMethodInput<String> {
     override fun test(): Call<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -47,8 +47,16 @@ class MainActivity : AppCompatActivity(), ITestKotlin,IMethodInput<String> {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var bundle = Bundle();
+        var bundle = Bundle()
+        bundle.putString("key", "value")
 
+        var intent = Intent()
+        intent.setClass(this,GSYActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
     }
 
 

@@ -20,9 +20,7 @@
 
         <activity
                 android:name=".DemoActivity"
-                android:theme="@style/AppTheme.NoActionBar"
-                >
-
+                android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -32,6 +30,9 @@
         <activity android:name=".OtherACtivity"/>
         <activity android:name=".MainActivity">
         </activity>
+        <activity android:name=".GSYActivity">
+        </activity>
+
     </application>
 
 </manifest>

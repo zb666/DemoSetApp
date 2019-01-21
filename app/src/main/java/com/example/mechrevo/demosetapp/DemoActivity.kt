@@ -1,5 +1,6 @@
 package com.example.mechrevo.demosetapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
@@ -36,6 +37,9 @@ class DemoActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_demo)
 
+        var intent = Intent()
+        intent.setClass(this,GSYActivity::class.java)
+        startActivity(intent)
     }
 
 }
