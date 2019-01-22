@@ -7,6 +7,8 @@
         android:layout_height="match_parent"
         tools:context=".GSYActivity">
 
+
+
     <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
             android:id="@+id/detail_player"
             android:layout_width="match_parent"
@@ -16,5 +18,9 @@
     <com.example.mechrevo.demosetapp.EqualsView
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_50"/>
+
+    <com.example.mechrevo.demosetapp.ktview.KtView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 </android.support.constraint.ConstraintLayout>
