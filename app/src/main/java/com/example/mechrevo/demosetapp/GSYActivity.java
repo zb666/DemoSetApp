@@ -3,14 +3,22 @@ package com.example.mechrevo.demosetapp;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import com.example.mechrevo.demosetapp.douban.DouBanBean;
+import com.example.mechrevo.demosetapp.douban.IDouBanApi;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
 import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GSYActivity extends AppCompatActivity {
 
@@ -26,6 +34,22 @@ public class GSYActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gsy);
+
+        Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+                .baseUrl("https://api.douban.com/")
+                .build();
+
+        retrofit.create(IDouBanApi.class).getDouBanApi().enqueue(new Callback<DouBanBean>() {
+            @Override
+            public void onResponse(Call<DouBanBean> call, Response<DouBanBean> response) {
+                Log.d("BobDouBan",response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<DouBanBean> call, Throwable t) {
+
+            }
+        });
 
         detailPlayer = (StandardGSYVideoPlayer) findViewById(R.id.detail_player);
 

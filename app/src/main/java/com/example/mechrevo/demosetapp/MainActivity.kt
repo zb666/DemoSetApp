@@ -13,6 +13,8 @@ import com.example.mechrevo.demosetapp.dagger.AMoudle
 import com.example.mechrevo.demosetapp.inter_in_out.IArray
 import com.example.mechrevo.demosetapp.inter_in_out.ITestKotlin
 import com.example.mechrevo.demosetapp.inter_in_out.InTest
+import com.example.mechrevo.demosetapp.ktview.KtView
+import com.example.mechrevo.demosetapp.sealeddemo.Expr
 import com.just.library.LogUtils
 import com.squareup.leakcanary.LeakCanary
 import dagger.internal.DaggerCollections
@@ -51,7 +53,7 @@ class MainActivity : AppCompatActivity(), ITestKotlin, IMethodInput<String> {
         bundle.putString("key", "value")
 
         var intent = Intent()
-        intent.setClass(this,GSYActivity::class.java)
+        intent.setClass(this, GSYActivity::class.java)
         startActivity(intent)
     }
 
@@ -66,6 +68,17 @@ class MainActivity : AppCompatActivity(), ITestKotlin, IMethodInput<String> {
 
     inner class Inner {
         fun too() = ""
+    }
+
+    fun testSealed(a: Int) {
+        var ktView = Expr.Const(null)
+
+        when (a) {
+            in 0..2 -> print("111")
+            3 -> print("222")
+            else -> print("other")
+        }
+
     }
 
 

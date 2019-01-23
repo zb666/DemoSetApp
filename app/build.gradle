@@ -8,6 +8,11 @@ apply plugin: 'walle'
 
 apply plugin: 'com.doraemon.compiler.plugin'
 
+//gson 一类的序列化框架 需要默认的构造方法，
+//all open 需要去除 final关键字，因为一些类需要被继承，但是final会阻止该特性
+apply plugin: 'kotlin-noarg'
+apply plugin: 'kotlin-allopen'
+
 android {
     compileSdkVersion 28
     signingConfigs {
@@ -61,6 +66,14 @@ android {
         }
     }
 
+}
+
+noArg {
+    annotation("com.example.mechrevo.demosetapp.douban.Poko")
+}
+
+allOpen {
+    annotation("com.example.mechrevo.demosetapp.douban.Poko")
 }
 
 
