@@ -22,9 +22,11 @@ android {
             keyAlias "key0"
             keyPassword "123456"  //签名密码
             v2SigningEnabled true
+
         }
     }
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.example.mechrevo.demosetapp"
         minSdkVersion 16
         targetSdkVersion 28
@@ -102,6 +104,7 @@ dependencies {
     implementation 'org.glassfish:javax.annotation:10.0-b28'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.github.markzhai:blockcanary-android:1.5.0'
+    compile 'io.reactivex.rxjava2:rxjava:2.2.2'
     // 仅在debug包启用BlockCanary进行卡顿监控和提示的话，可以这么用
     //    debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
     //    releaseCompile 'com.github.markzhai:blockcanary-no-op:1.5.0'
@@ -112,8 +115,7 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.1'
     //    implementation 'com.didichuxing.doraemonkit:kit-no-op:1.0.5'
     //GSY VideoPlayer 播放器
@@ -124,5 +126,5 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
 
     implementation 'android.arch.lifecycle:extensions:1.1.1'
-
+    implementation 'com.android.support:multidex:1.0.3'
 }

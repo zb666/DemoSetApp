@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,11 +18,15 @@ import com.example.daggerdemo.app.MyApp;
 import com.example.daggerdemo.ok.CacheManager;
 import com.example.daggerdemo.singleinject.Presenter;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 import okhttp3.internal.connection.RealConnection;
+import org.jetbrains.annotations.TestOnly;
 
 import javax.inject.Inject;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,17 +39,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        test();
 
         TextView tvJump = findViewById(R.id.tvJump);
         tvJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(),OkActivity.class));
+                startActivity(new Intent(v.getContext(), OkActivity.class));
                 finish();
             }
         });
-
 
 
         final TextView textView = findViewById(R.id.textview);
@@ -109,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-
         Deque<RealConnection> connections = new ArrayDeque<>();
 
     }
@@ -121,6 +123,29 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ///Toast.makeText(VectorDemo.this, "当前系统不支持L Plus", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @TestOnly
+    public void test() {
+        Observable<String> net = Observable.just("net");
+        Observable<String> disk = Observable.just("disk");
+
+        Observable.concat(disk, net)
+                .firstElement()
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+
+                    }
+                });
+
+        Observable.interval(1000, 1000, TimeUnit.SECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        Log.d("interval", aLong + "");
+                    }
+                });
     }
 
 }

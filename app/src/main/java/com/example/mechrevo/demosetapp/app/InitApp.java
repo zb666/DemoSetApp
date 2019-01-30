@@ -1,6 +1,7 @@
 package com.example.mechrevo.demosetapp.app;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
@@ -14,7 +15,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InitApp extends Application {
+public class InitApp extends MultiDexApplication {
 
     private List<String> list = new ArrayList<>();
 
