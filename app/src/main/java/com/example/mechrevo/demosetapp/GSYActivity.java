@@ -26,6 +26,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * 创建LiveDtaa
+ * 创建观察者Observer
+ * 调用LiveData的observer方法(observe)方法将LiveData以及Observer建立起订阅的关系
+ * 在合适的世纪(Active状态)发送set/post 发送数据通知观察者
+ * state记录不同的状态 mActiveCount>0 表示处于活跃状态
+ */
 public class GSYActivity extends AppCompatActivity implements View.OnClickListener {
 
     private UserViewModel userViewModel;
